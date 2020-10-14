@@ -1,1 +1,232 @@
 
+CREATE TABLE producenci (
+    id_producenta varchar  NOT NULL,
+    nazwa_producenta varchar  NOT NULL,
+    mail varchar  NOT NULL,
+    telefon varchar  NOT NULL,
+    CONSTRAINT producenci_pk PRIMARY KEY (id_producenta)
+);
+ 
+-- Table: produkty
+CREATE TABLE produkty (
+    id_produktu varchar  NOT NULL,
+    nazwa_produktu varchar  NOT NULL,
+    cena real  NOT NULL,
+    id_producenta varchar  NOT NULL,
+    CONSTRAINT produkty_pk PRIMARY KEY (id_produktu)
+);
+ 
+-- Table: zamowienia
+CREATE TABLE zamowienia (
+    id_zamowienia varchar  NOT NULL,
+    id_producenta varchar  NOT NULL,
+    id_produktu varchar  NOT NULL,
+    cena real  NOT NULL,
+    ilosc_produktow int  NOT NULL,
+    CONSTRAINT zamowienia_pk PRIMARY KEY (id_zamowienia)
+);
+ 
+-- foreign keys
+-- Reference: producenci_produkty (table: produkty)
+ALTER TABLE produkty ADD CONSTRAINT producenci_produkty
+    FOREIGN KEY (id_producenta)
+    REFERENCES producenci (id_producenta)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+ 
+-- Reference: zamowienia_producenci (table: zamowienia)
+ALTER TABLE zamowienia ADD CONSTRAINT zamowienia_producenci
+    FOREIGN KEY (id_producenta)
+    REFERENCES producenci (id_producenta)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+ 
+-- Reference: zamowienia_produkty (table: zamowienia)
+ALTER TABLE zamowienia ADD CONSTRAINT zamowienia_produkty
+    FOREIGN KEY (id_produktu)
+    REFERENCES produkty (id_produktu)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+ 
+-- End of file.
+ 
+INSERT INTO produkty VALUES (1,'samochod',40005.0, 'volkswagen');
+INSERT INTO producenci VALUES (1, 'volkswagen', 'biuro@vw.de', '123456789');
+INSERT INTO zamowienia VALUES (1,1,1,40005.0,'samochod',15);
+INSERT INTO produkty VALUES (2,'tir',405005.0, 'volkswagen');
+INSERT INTO zamowienia VALUES (2,2,1,405005.0,'samochod',3);
+INSERT INTO produkty VALUES (3,'biurko',405.0, 'ikea');
+INSERT INTO producenci VALUES (2, 'ikea', 'biuro@ikea.se', '147156789');
+INSERT INTO zamowienia VALUES (3,3,2,405.0,'biurko',1);
+INSERT INTO produkty VALUES (4,'mleko',2.45, 'piatnica');
+INSERT INTO producenci VALUES (3, 'piatnica', 'kontakt@piatnica.pl', '987654321');
+INSERT INTO zamowienia VALUES (4,4,3,2.45,'mleko',2);
+INSERT INTO produkty VALUES (5,'pralka',1009.99, 'siemens');
+INSERT INTO producenci VALUES (4, 'siemens', 'of@siemens.de', '151515262');
+INSERT INTO zamowienia VALUES (5,5,4,1009.99,'pralka',1);
+INSERT INTO produkty VALUES (6,'traktor',49999.0, 'ursus');
+INSERT INTO producenci VALUES (5, 'ursus', 'biuro@ursus.org', '123098789');
+INSERT INTO zamowienia VALUES (6,6,5,49999.0,'traktor',85);
+INSERT INTO produkty VALUES (7,'jajka',4.50, 'wolna kurka');
+INSERT INTO producenci VALUES (6, 'wolna kurka', 'wolna@kurka.no', '987456789');
+INSERT INTO zamowienia VALUES (7,7,6,4.50,'jajka',5);
+INSERT INTO produkty VALUES (8,'ubezpieczenie',66005.0, 'zus');
+INSERT INTO producenci VALUES (7, 'zus', 'spadaj@zus.pl', '123987789');
+INSERT INTO zamowienia VALUES (8,8,7,66005.0,'ubezieczenie',2);
+INSERT INTO produkty VALUES (9,'komputer',2005.0, 'asus');
+INSERT INTO producenci VALUES (8, 'asus', 'biuro@asus.eu', '777666789');
+INSERT INTO zamowienia VALUES (9,9,8,2005.0,'komputer',1);
+INSERT INTO produkty VALUES (10,'tv',6005.0, 'samsung');
+INSERT INTO producenci VALUES (9, 'samsung', 'biuro@samsung.de', '987656789');
+INSERT INTO zamowienia VALUES (10,10,9,6005.0,'tv',1);
+INSERT INTO produkty VALUES (11,'jacht',100000.0, 'yacht');
+INSERT INTO producenci VALUES (10, 'yacht', 'biuro@yacht.com', '923456789');
+INSERT INTO zamowienia VALUES (11,11,10,10000.0,'jacht',1);
+ 
+ 
+CREATE TABLE produkty(
+id_produktu int PRIMARY KEY, nazwa_produktu varchar(255), cena float
+, producent varchar(255));
+CREATE TABLE producenci(
+id_producenta int PRIMARY KEY, nazwa_producenta varchar(255), mail varchar(255), telefon int);
+CREATE tablezamowienia(
+id_zamowienia int, id_produktu int REFERENCES produkty(id_produktu), id_producenta int REFERENCES producenci(id_producenta), cena float, nazwa_produktu varchar(255), ilosc int, constraint klucze_zamowienia PRIMARY KEY (id_produktu, id_producenta));
+--------------------------------------------
+SELECT * FROM produkty;
+SELECT * FROM producenci;
+SELECT * FROM zamowienia;
+ 
+INSERT INTO produkty VALUES (1,'samochod',40005.0, 'volkswagen');
+INSERT INTO producenci VALUES (1, 'volkswagen', 'biuro@vw.de', '123456789');
+INSERT INTO zamowienia VALUES (1,1,1,40005.0,'samochod',15);
+INSERT INTO produkty VALUES (2,'tir',405005.0, 'volkswagen');
+INSERT INTO zamowienia VALUES (2,2,1,405005.0,'samochod',3);
+INSERT INTO produkty VALUES (3,'biurko',405.0, 'ikea');
+INSERT INTO producenci VALUES (2, 'ikea', 'biuro@ikea.se', '147156789');
+INSERT INTO zamowienia VALUES (3,3,2,405.0,'biurko',1);
+INSERT INTO produkty VALUES (4,'mleko',2.45, 'piatnica');
+INSERT INTO producenci VALUES (3, 'piatnica', 'kontakt@piatnica.pl', '987654321');
+INSERT INTO zamowienia VALUES (4,4,3,2.45,'mleko',2);
+INSERT INTO produkty VALUES (5,'pralka',1009.99, 'siemens');
+INSERT INTO producenci VALUES (4, 'siemens', 'of@siemens.de', '151515262');
+INSERT INTO zamowienia VALUES (5,5,4,1009.99,'pralka',1);
+INSERT INTO produkty VALUES (6,'traktor',49999.0, 'ursus');
+INSERT INTO producenci VALUES (5, 'ursus', 'biuro@ursus.org', '123098789');
+INSERT INTO zamowienia VALUES (6,6,5,49999.0,'traktor',85);
+INSERT INTO produkty VALUES (7,'jajka',4.50, 'wolna kurka');
+INSERT INTO producenci VALUES (6, 'wolna kurka', 'wolna@kurka.no', '987456789');
+INSERT INTO zamowienia VALUES (7,7,6,4.50,'jajka',5);
+INSERT INTO produkty VALUES (8,'ubezpieczenie',66005.0, 'zus');
+INSERT INTO producenci VALUES (7, 'zus', 'spadaj@zus.pl', '123987789');
+INSERT INTO zamowienia VALUES (8,8,7,66005.0,'ubezieczenie',2);
+INSERT INTO produkty VALUES (9,'komputer',2005.0, 'asus');
+INSERT INTO producenci VALUES (8, 'asus', 'biuro@asus.eu', '777666789');
+INSERT INTO zamowienia VALUES (9,9,8,2005.0,'komputer',1);
+INSERT INTO produkty VALUES (10,'tv',6005.0, 'samsung');
+INSERT INTO producenci VALUES (9, 'samsung', 'biuro@samsung.de', '987656789');
+INSERT INTO zamowienia VALUES (10,10,9,6005.0,'tv',1);
+INSERT INTO produkty VALUES (11,'jacht',100000.0, 'yacht');
+INSERT INTO producenci VALUES (10, 'yacht', 'biuro@yacht.com', '923456789');
+INSERT INTO zamowienia VALUES (11,11,10,10000.0,'jacht',1);
+ 
+
+11.
+SELECT 'Produkt '|| upper(nazwa_produktu) || ', ktorego producentem jest ' || upper(nazwa_producenta) || ', zamowiono ' || ilosc || ' razy.' FROM zamowienia JOIN producenci ON zamowienia.id_producenta=producenci.id_producenta ORDER BY ilosc DESC;
+UPDATE zamowienia SET nowe_id = (upper(LEFT(zamowienia.nazwa_produktu,3)) || '_' || upper(LEFT(producenci.nazwa_producenta,3))) FROM producenci WHERE zamowienia.id_producenta=producenci.id_producenta;
+
+SELECT CONCAT('Producent: ', nazwa_producenta, ', liczba_zamowien: ', COUNT(producenci.id_producencta), ', wartosc_zamowienia', ilosc*cena) FROM zamowienia INNER JOIN produkty ON zamowienia.id_produktu = produkty.id_produktu INNER JOIN producenci ON produkty.id_producencta = producenci.id_producencta GROUP BY producenci.id_producencta,zamowienia.ilosc,produkty.cena;
+SELECT CONCAT('Produkt: ', nazwa_produktu, ', liczba_zamowien: ', COUNT(id_zamowienia)) FROM produkty INNER JOIN zamowienia ON produkty.id_produktu = zamowienia.id_produktu GROUP BY produkty.id_produktu;
+SELECT * FROM produkty NATURAL JOIN zamowienia;
+SELECT * FROM zamowienia WHERE EXTRACT(MONTH FROM data) = 01;
+SELECT EXTRACT(ISODOW FROM data),COUNT(id_zamowienia) FROM zamowienia GROUP BY EXTRACT(ISODOW FROM data) ORDER BY COUNT(id_zamowienia) DESC;
+SELECT nazwa_produktu,COUNT(produkty.id_produktu) FROM zamowienia INNER JOIN produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY produkty.id_produktu ORDER BY COUNT(produkty.id_produktu) DESC;
+
+12.
+SELECT CONCAT('Produkt ',UPPER(nazwa_produktu), ' którego producentem jest ', LOWER(nazwa_producenta), ', zamówiono ', COUNT(id_zamowienia), ' razy') AS opis FROM zamowienia INNER JOIN produkty ON zamowienia.id_produktu = produkty.id_produktu INNER JOIN producenci ON produkty.id_producencta = producenci.id_producencta GROUP BY nazwa_produktu,nazwa_producenta;
+SELECT * FROM zamowienia INNER JOIN produkty ON zamowienia.id_produktu = produkty.id_produktu WHERE (cena*ilosc) NOT IN (SELECT cena*ilosc FROM zamowienia INNER JOIN produkty ON zamowienia.id_produktu = produkty.id_produktu ORDER BY cena*ilosc DESC LIMIT 3);
+CREATE TABLE klienci(id_klienta SERIAL PRIMARY KEY,email VARCHAR(255) NOT NULL,numer_telefonu VARCHAR(255) NOT NULL);
+ALTER TABLE zamowienia ADD id_klienta INT;
+ALTER TABLE zamowienia ADD CONSTRAINT fk_zamowienia_klienci FOREIGN KEY (id_klienta) REFERENCES klienci(id_klienta);
+
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient1','111-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient2','122-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient3','113-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient4','144-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient5','155-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient6','166-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient7','177-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient8','188-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient9','199-222-333');
+INSERT INTO klienci(email,numer_telefonu) VALUES('klient10','175-222-333');
+
+UPDATE zamowienia SET id_klienta = 1 WHERE id_zamowienia = 1;
+UPDATE zamowienia SET id_klienta = 1 WHERE id_zamowienia = 2;
+UPDATE zamowienia SET id_klienta = 1 WHERE id_zamowienia = 3;
+UPDATE zamowienia SET id_klienta = 2 WHERE id_zamowienia = 4;
+UPDATE zamowienia SET id_klienta = 3 WHERE id_zamowienia = 5;
+UPDATE zamowienia SET id_klienta = 6 WHERE id_zamowienia = 6;
+UPDATE zamowienia SET id_klienta = 6 WHERE id_zamowienia = 7;
+UPDATE zamowienia SET id_klienta = 8 WHERE id_zamowienia = 8;
+UPDATE zamowienia SET id_klienta = 9 WHERE id_zamowienia = 9;
+UPDATE zamowienia SET id_klienta = 10 WHERE id_zamowienia = 10;
+
+
+SELECT email, numer_telefonu, nazwa_produktu, ilosc, (ilosc * cena) AS wartość_zamówienia FROM zamowienia INNER JOIN klienci ON zamowienia.id_klienta = klienci.id_klienta INNER JOIN produkty ON produkty.id_produktu = zamowienia.id_produktu;
+SELECT CONCAT('NAJCZĘŚCIEJ ZAMAWIAJĄCY: ', email, ' telefon: ',numer_telefonu, ' całkowita kwota zamówień: ', cena) FROM (SELECT email,numer_telefonu,SUM(cena*ilosc) AS cena FROM zamowienia INNER JOIN klienci ON zamowienia.id_klienta=klienci.id_klienta INNER JOIN produkty ON produkty.id_produktu=zamowienia.id_produktu GROUP BY zamowienia.id_klienta,email,numer_telefonu ORDER BY COUNT(zamowienia.id_klienta) DESC LIMIT 1) as Najczestszy UNION SELECT CONCAT('NAJRZADZIEJ ZAMAWIAJĄCY: ', email, ' telefon: ',numer_telefonu, ' całkowita kwota zamówień: ', cena) FROM (SELECT email,numer_telefonu,SUM(cena*ilosc) AS cena FROM zamowienia INNER JOIN klienci ON zamowienia.id_klienta=klienci.id_klienta INNER JOIN produkty ON produkty.id_produktu = zamowienia.id_produktu GROUP BY zamowienia.id_klienta,email,numer_telefonu ORDER BY COUNT(zamowienia.id_klienta) LIMIT 1) AS najrzadziej;
+DELETE FROM produkty WHERE id_produktu IN (SELECT produkty.id_produktu FROM produkty WHERE id_produktu NOT IN (SELECT id_produktu FROM zamowienia));
+
+13.
+CREATE TABLE numer(liczba INT, CONSTRAINT valid_number CHECK (liczba <= 999 AND liczba >= 100));
+CREATE SEQUENCE liczba_seq INCREMENT 5 MINVALUE 100 MAXVALUE 125 CYCLE;
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+INSERT INTO numer(liczba) VALUES(NEXTVAL('liczba_seq'));
+ALTER SEQUENCE liczba_seq INCREMENT BY 6;
+SELECT CURRVAL('liczba_seq');
+SELECT NEXTVAL('liczba_seq');
+DROP SEQUENCE liczba_seq;
+
+14.
+SELECT * FROM pg_catalog.pg_user;
+CREATE USER Superuser290897 WITH SUPERUSER;
+CREATE USER guest290897;
+GRANT SELECT ON ALL TABLES IN SCHEMA firma TO guest290897;
+SELECT * FROM pg_catalog.pg_user;
+ALTER USER Superuser290897 RENAME TO student;
+ALTER USER student WITH NOSUPERUSER;
+GRANT SELECT ON ALL TABLES IN SCHEMA firma TO student;
+
+15.
+BEGIN;
+UPDATE produkty SET cena = cena + CAST(10 AS MONEY);
+COMMIT;
+
+BEGIN;
+UPDATE produkty SET cena = 1.1*cena WHERE id_produktu = 3;
+SAVEPOINT S1;
+UPDATE zamowienia SET liczba_sztuk = 1.25*liczba_sztuk;
+SAVEPOINT S2;
+DELETE FROM klienci WHERE id_klienta IN (SELECT id_klienta FROM klienci JOIN zamowienia ON id_klienta = klienci_id_klienta JOIN produkty ON id_produktu = produkty_id_produktu GROUP BY id_klienta ORDER BY SUM(cena*ilosc) DESC LIMIT 1);
+ROLLBACK TO S1;
+ROLLBACK TO S2;
+ROLLBACK;
+COMMIT;
+
+CREATE OR REPLACE FUNCTION udzial()
+RETURNS TABLE (procent text) AS
+$func$
+BEGIN
+	RETURN QUERY
+	SELECT CONCAT(nazwa_producenta, ': ', (COUNT(id_zamowienia) / CAST((SELECT COUNT(*) FROM zamowienia) AS FLOAT))*100, '%') FROM producenci JOIN produkty ON id_producenta = producenci_id_producenta JOIN zamowienia ON id_produktu = produkty_id_produktu GROUP BY (id_producenta);
+END
+$func$ LANGUAGE plpgsql;
+
+SELECT udzial();
+ 
